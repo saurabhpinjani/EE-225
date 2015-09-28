@@ -153,18 +153,23 @@ bool isTree(int *a,int x,int y,int *edges,int no_of_edges){
 
 }
 
-void combinationUtil(int *mat,int arr[], int data[], int start, int end, int index, int r)
+void combinationGen(int *mat,int arr[], int data[], int start, int end, int index, int r)
 {
     // Current combination is ready to be printed, print it
     if ((index == r))
     {
         if((isTree(mat,r+1,end,data,r)==true)){
+
+
             for (int j=0; j<r; j++){
                 cout<<data[j]<<"  ";
                 }
 
             cout<<"\n";
+
+
         }
+
         return;
     }
 
@@ -175,13 +180,13 @@ void combinationUtil(int *mat,int arr[], int data[], int start, int end, int ind
     for (int i=start; i<=end && end-i+1 >= r-index; i++)
     {
         data[index] = arr[i];
-        combinationUtil(mat,arr, data, i+1, end, index+1, r);
+        combinationGen(mat,arr, data, i+1, end, index+1, r);
     }
 }
 
 
 
-void printCombination(int *mat,int no_of_edges, int no_of_nodes)
+void printTree(int *mat,int no_of_edges, int no_of_nodes)
 {   int r=no_of_nodes-1;
     int arr[no_of_edges];
     for(int i=0;i<no_of_edges;++i){
@@ -191,14 +196,69 @@ void printCombination(int *mat,int no_of_edges, int no_of_nodes)
     int data[r];
 
     // Print all combination using temprary array 'data[]'
-    combinationUtil( mat,arr, data, 0, no_of_edges-1, 0, r);
+    combinationGen( mat,arr, data, 0, no_of_edges-1, 0, r);
+
 }
+
+
 
 /* arr[]  ---> Input Array
    data[] ---> Temporary array to store current combination
    start & end ---> Staring and Ending indexes in arr[]
    index  ---> Current index in data[]
    r ---> Size of a combination to be printed */
+   void copycol(int *Ar,int *A,int col1,int col2,int rows,int col)
+   {
+       for(int i=0;i<rows;++i){
+        Ar[i*col+col1]=Ar[i*col+col2];
+       }
+   }
+
+
+
+   void device(float *dev,float *J,int *Ar,int *Aj,int &active,int &passive,int *A,int x,int y)
+   {
+        int passive=0;
+        int active=0;
+        int *sources=new int[y];
+        Ar= new int [x*y];
+        Aj= new int [x*y];
+        dev=new float[x*y];
+        J= new float[y*1];
+        cout<<"Enter type then value"<<endl;
+        cout<<" Types can be : G (conductance) , R (resistance) ,J (current source)"<<endl;
+
+        for(int i=0;i<y;++i){
+            char type;
+            float val;
+            cout<<"Enter the characteristics for edge : "<<i<<endl;
+            cin>>type>>val;
+            type=tolower(type);
+
+            switch(type){
+                case 'g' :
+                            dev[passive*y+passive]=val;
+                            copycol(Ar,A,passive,i,x,y);
+                            passive++;
+                            break;
+                case 'r':  dev[passive*y+passive]=1/val;
+                            copycol(Ar,A,passive,i,x,y);
+                            passive++;
+                            break;
+                case 'j' : copycol(Aj,A,active,i,x,y);
+                            J[active]=val;
+
+                            active++;
+                            break;
+                default :  cout<<"Enter correct type! "<<endl;
+                            i--;
+                            continue;
+
+                }
+
+        }
+
+   }
 
 int main(){
 
@@ -209,9 +269,9 @@ int main(){
 
     display(mat,x,y);
     cout<<checkcontinous(mat,x,y);
-    int edges[]={0,1,2};
-    cout<<"Is tree "<<isTree(mat,x,y,edges,3);
-    printCombination(mat,y,x);
+    printTree(mat,y,x);
+    int edges[4]={0,1,2,5};
+    cout<<isTree(mat,x,y,edges,4);
     return 0;
 
 
