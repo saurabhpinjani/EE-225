@@ -32,6 +32,7 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="incidence.cpp" />
+		<Unit filename="matrix.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

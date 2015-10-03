@@ -47,7 +47,7 @@ int* input(int& x,int&y)
 
 }
 
-void display(int *mat,int rows,int cols){
+void display(int *&mat,int rows,int cols,int tot_cols){
     //clearscreen();
     cout<<"Displaying matrix"<<endl;
 
@@ -55,7 +55,25 @@ void display(int *mat,int rows,int cols){
     for(int i=0;i<rows;++i){
         cout<<"\t";
         for(int j=0;j<cols;++j){
-            cout<<mat[i*cols+j]<<"\t";
+            cout<<mat[i*tot_cols+j]<<"\t";
+
+        }
+        cout<<endl;
+
+    }
+
+}
+
+void display(float *mat,int rows,int cols,int tot_cols){
+    //clearscreen();
+    cout<<"Displaying matrix"<<endl;
+
+
+    for(int i=0;i<rows;++i){
+        cout<<"\t";
+
+        for(int j=0;j<cols;++j){
+            cout<<mat[i*tot_cols+j]<<"\t";
 
         }
         cout<<endl;
@@ -207,24 +225,44 @@ void printTree(int *mat,int no_of_edges, int no_of_nodes)
    start & end ---> Staring and Ending indexes in arr[]
    index  ---> Current index in data[]
    r ---> Size of a combination to be printed */
-   void copycol(int *Ar,int *A,int col1,int col2,int rows,int col)
+   void copycol(int *&Ar,int *&A,int col1,int col2,int rows,int col)
    {
        for(int i=0;i<rows;++i){
-        Ar[i*col+col1]=Ar[i*col+col2];
+        Ar[i*col+col1]=A[i*col+col2];
        }
    }
 
 
+    void zero(int *&mat,int x,int y){
+    for(int i=0;i<x;++i){
+        for(int j=0;j<y;++j){
+            mat[i*y+j]=0;
+        }
+    }
+    }
 
-   void device(float *dev,float *J,int *Ar,int *Aj,int &active,int &passive,int *A,int x,int y)
+    void zero(float *&mat,int x,int y){
+    for(int i=0;i<x;++i){
+        for(int j=0;j<y;++j){
+            mat[i*y+j]=0;
+        }
+    }
+    }
+   void device(float *&dev,float *&J,int *&Ar,int *&Aj,int &active,int &passive,int *&A,int x,int y,int *&edgeOrder)
    {
-        int passive=0;
-        int active=0;
-        int *sources=new int[y];
+         passive=0;
+         active=0;
+
+        edgeOrder=new int[y];
         Ar= new int [x*y];
         Aj= new int [x*y];
         dev=new float[x*y];
         J= new float[y*1];
+        zero(dev,x,y);
+        zero(edgeOrder,1,y);
+        zero(Ar,x,y);
+        zero(Aj,x,y);
+        zero(J,1,y);
         cout<<"Enter type then value"<<endl;
         cout<<" Types can be : G (conductance) , R (resistance) ,J (current source)"<<endl;
 
@@ -239,15 +277,24 @@ void printTree(int *mat,int no_of_edges, int no_of_nodes)
                 case 'g' :
                             dev[passive*y+passive]=val;
                             copycol(Ar,A,passive,i,x,y);
-                            passive++;
-                            break;
-                case 'r':  dev[passive*y+passive]=1/val;
-                            copycol(Ar,A,passive,i,x,y);
-                            passive++;
-                            break;
-                case 'j' : copycol(Aj,A,active,i,x,y);
-                            J[active]=val;
+                            edgeOrder[passive]=i;
 
+                            passive++;
+                            break;
+                case 'r':
+                            dev[passive*y+passive]=1/val;
+                            copycol(Ar,A,passive,i,x,y);
+
+                            edgeOrder[passive]=i;
+                            passive++;
+                            break;
+                case 'j' :
+                            copycol(Aj,A,active,i,x,y);
+                            J[active]=val;
+                            for(int j=active;j>0;--j){
+                                edgeOrder[y-1-j]=edgeOrder[y-j];
+                            }
+                            edgeOrder[y-1]=i;
                             active++;
                             break;
                 default :  cout<<"Enter correct type! "<<endl;
@@ -257,22 +304,53 @@ void printTree(int *mat,int no_of_edges, int no_of_nodes)
                 }
 
         }
+        for(int i=0;i<x;++i){
+        cout<<"\t";
+        //cout<<"printing row"<<endl;
+        for(int j=0;j<passive;++j){
+            cout<<dev[i*y+j]<<"\t";
+
+        }
+        cout<<endl;
+
+    }
 
    }
 
-int main(){
+/*int main(){
 
     int x,y;
 
     int *mat;
     mat=input(x,y);
+    float *dev,*J;
+    int *Ar,*Aj,active,passive,*edgeOrder;
+    device(dev,J,Ar,Aj,active,passive,mat,x,y,edgeOrder);
+    display(mat,x,y,y);
+    cout<<"device char"<<endl;
+    display(dev,x,passive,y);
+     cout<<"J matrix"<<endl;
+    display(J,active,1,1);
+     cout<<"Ar matrix"<<endl;
+    display(Ar,x,passive,y);
+     cout<<"Aj"<<endl;
+    display(Aj,x,active,y);
+     cout<<"edge Order"<<endl;
+    display(edgeOrder,1,y,1);
+    cout<<"Displaying matrix"<<endl;
 
-    display(mat,x,y);
-    cout<<checkcontinous(mat,x,y);
-    printTree(mat,y,x);
-    int edges[4]={0,1,2,5};
-    cout<<isTree(mat,x,y,edges,4);
+
+    for(int i=0;i<x;++i){
+        cout<<"\t";
+        //cout<<"printing row"<<endl;
+        for(int j=0;j<passive;++j){
+            cout<<Ar[i*y+j]<<"\t";
+
+        }
+        cout<<endl;
+
+    }
     return 0;
 
 
-}
+}*/
