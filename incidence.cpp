@@ -4,7 +4,7 @@
 using namespace std;
 
 
-int* input(int& x,int&y)
+float* input(int& x,int&y)
 {
     //clearscreen();
     int no_nodes,no_edges;
@@ -15,8 +15,8 @@ int* input(int& x,int&y)
     //no of edges is number of columns
     //no of rows is number of no of nodes
 
-    int *in_matrix;
-    in_matrix=new int[no_edges*no_nodes];
+    float *in_matrix;
+    in_matrix=new float[no_edges*no_nodes];
 
     cout<<"number the nodes from 0 to "<<no_nodes-1<<endl;
     cout<<"number the edges from 0 to "<<no_edges-1<<endl;
@@ -47,22 +47,6 @@ int* input(int& x,int&y)
 
 }
 
-void display(int *&mat,int rows,int cols,int tot_cols){
-    //clearscreen();
-    cout<<"Displaying matrix"<<endl;
-
-
-    for(int i=0;i<rows;++i){
-        cout<<"\t";
-        for(int j=0;j<cols;++j){
-            cout<<mat[i*tot_cols+j]<<"\t";
-
-        }
-        cout<<endl;
-
-    }
-
-}
 
 void display(float *mat,int rows,int cols,int tot_cols){
     //clearscreen();
@@ -84,7 +68,7 @@ void display(float *mat,int rows,int cols,int tot_cols){
 
 
 
-void continous(int *a,int x,int y,int start,bool *check){
+void continous(float *a,int x,int y,int start,bool *check){
 
 
     check[start]=true;
@@ -105,7 +89,7 @@ void continous(int *a,int x,int y,int start,bool *check){
 
 
 }
-bool checkcontinous(int *a,int x,int y){
+bool checkcontinous(float *a,int x,int y){
     bool check[x];
     for(int i=0;i<x;++i){
         check[i]=false;
@@ -122,7 +106,7 @@ bool checkcontinous(int *a,int x,int y){
     return true;
 
 }
-bool isTree(int *a,int x,int y,int *edges,int no_of_edges){
+bool isTree(float *a,int x,int y,int *edges,int no_of_edges){
     bool check[x];
     int no_of_nodes=0;
     for(int i=0;i<x;++i){
@@ -148,8 +132,8 @@ bool isTree(int *a,int x,int y,int *edges,int no_of_edges){
     if(no_of_nodes-1!=no_of_edges){
         return false;
     }
-    int *b;
-    b=new int[no_of_edges*no_of_nodes];
+    float *b;
+    b=new float[no_of_edges*no_of_nodes];
 
     for(int j=0;j<no_of_edges;++j){
         for(int i=0;i<x;++i)
@@ -171,7 +155,7 @@ bool isTree(int *a,int x,int y,int *edges,int no_of_edges){
 
 }
 
-void combinationGen(int *mat,int arr[], int data[], int start, int end, int index, int r)
+void combinationGen(float *&mat,float arr[], int data[], int start, int end, int index, int r)
 {
     // Current combination is ready to be printed, print it
     if ((index == r))
@@ -204,9 +188,9 @@ void combinationGen(int *mat,int arr[], int data[], int start, int end, int inde
 
 
 
-void printTree(int *mat,int no_of_edges, int no_of_nodes)
+void printTree(float *&mat,int no_of_edges, int no_of_nodes)
 {   int r=no_of_nodes-1;
-    int arr[no_of_edges];
+    float arr[no_of_edges];
     for(int i=0;i<no_of_edges;++i){
         arr[i]=i;
     }
@@ -225,21 +209,20 @@ void printTree(int *mat,int no_of_edges, int no_of_nodes)
    start & end ---> Staring and Ending indexes in arr[]
    index  ---> Current index in data[]
    r ---> Size of a combination to be printed */
-   void copycol(int *&Ar,int *&A,int col1,int col2,int rows,int col)
+   void copycol(float *&Ar,float *&A,int col1,int col2,int rows,int col)
    {
-       for(int i=0;i<rows;++i){
+       for(int i=1;i<rows;++i){
         Ar[i*col+col1]=A[i*col+col2];
        }
    }
-
-
-    void zero(int *&mat,int x,int y){
+     void zero(int *&mat,int x,int y){
     for(int i=0;i<x;++i){
         for(int j=0;j<y;++j){
             mat[i*y+j]=0;
         }
     }
     }
+
 
     void zero(float *&mat,int x,int y){
     for(int i=0;i<x;++i){
@@ -248,14 +231,14 @@ void printTree(int *mat,int no_of_edges, int no_of_nodes)
         }
     }
     }
-   void device(float *&dev,float *&J,int *&Ar,int *&Aj,int &active,int &passive,int *&A,int x,int y,int *&edgeOrder)
+   void device(float *&dev,float *&J,float*&Ar,float*&Aj,int &active,int &passive,float*&A,int x,int y,int *&edgeOrder)
    {
          passive=0;
          active=0;
 
         edgeOrder=new int[y];
-        Ar= new int [x*y];
-        Aj= new int [x*y];
+        Ar= new float [(x-1)*y];
+        Aj= new float [(x-1)*y];
         dev=new float[x*y];
         J= new float[y*1];
         zero(dev,x,y);

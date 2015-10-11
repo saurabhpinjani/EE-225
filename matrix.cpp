@@ -39,7 +39,7 @@ void mat_multiply(float *&pro,float *&mat1,float *&mat2,int x1,int y1,int x2,int
     }
 }
 
-void transpose(float *&mat,int  x,int y)
+float * transpose(float *&mat,int  x,int y)
 {
     float *temp=new float [y*x];
     for(int i=0;i<x;++i){
@@ -48,8 +48,8 @@ void transpose(float *&mat,int  x,int y)
         }
     }
 
-    delete mat;
-    mat=temp;
+    return temp;
+
 
 
 }
@@ -145,11 +145,13 @@ int   solve(float *&A,float *&B,float *&C,int n)
 
 
 
+    return 0;
 
 
 }
 
-int main(){
+
+/*int main(){
     float *a;
     a=new float[9];
     a[0]=1;
@@ -163,7 +165,7 @@ int main(){
     a[8]=1;
     cout<<determinant(a,3);
     return 0;
-}
+}*/
 
 
 
