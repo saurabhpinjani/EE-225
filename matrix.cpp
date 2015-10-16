@@ -102,7 +102,7 @@ int   solve(float *&A,float *&B,float *&C,int n)
 {
         float *temp =new float[n*n];
         float detA=determinant(A,n);
-
+         B=new float[n];
         float *detB=new float[n];
         for(int k=0;k<n;++k){
         for(int i=0;i<n;++i)
@@ -118,6 +118,7 @@ int   solve(float *&A,float *&B,float *&C,int n)
         }
         detB[k]=determinant(temp,n);
         }
+       // cout<<"detA:"<<detA<<endl;
         bool flag=false;
         if(detA==0){
             for(int i=0;i<n;++i){
@@ -149,8 +150,18 @@ int   solve(float *&A,float *&B,float *&C,int n)
 
 
 }
+void normalise(float *&A,int x,int n,int m){
 
+    float *temp=new float[x*m];
+    for(int i=0;i<x;++i){
+        for(int j=0;j<m;++j){
+            temp[m*i+j]=A[n*i+j];
+        }
+    }
+    delete A;
+    A=temp;
 
+}
 /*int main(){
     float *a;
     a=new float[9];

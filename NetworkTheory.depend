@@ -3,11 +3,22 @@
 	<iostream>
 	<conio.h>
 
-1444389185 source:c:\users\saurabh pinjani\documents\acad\sem 3\ee 225 network theory\ee-225\incidence.cpp
+1445002362 source:c:\users\saurabh pinjani\documents\acad\sem 3\ee 225 network theory\ee-225\incidence.cpp
 	<iostream>
 	<conio.h>
 
-1443737917 source:c:\users\saurabh pinjani\documents\acad\sem 3\ee 225 network theory\ee-225\matrix.cpp
+1445001794 source:c:\users\saurabh pinjani\documents\acad\sem 3\ee 225 network theory\ee-225\matrix.cpp
 	<iostream>
 	<math.h>
+
+1445002169 source:c:\users\saurabh pinjani\documents\acad\sem 3\ee 225 network theory\ee-225\interface.cpp
+	<iostream>
+	<math.h>
+	<stdlib.h>
+	"incidence.h"
+	"matrix.h"
+
+1444986185 c:\users\saurabh pinjani\documents\acad\sem 3\ee 225 network theory\ee-225\incidence.h
+
+1444992314 c:\users\saurabh pinjani\documents\acad\sem 3\ee 225 network theory\ee-225\matrix.h
 

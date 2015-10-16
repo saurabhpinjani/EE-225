@@ -212,7 +212,7 @@ void printTree(float *&mat,int no_of_edges, int no_of_nodes)
    void copycol(float *&Ar,float *&A,int col1,int col2,int rows,int col)
    {
        for(int i=1;i<rows;++i){
-        Ar[i*col+col1]=A[i*col+col2];
+        Ar[(i-1)*col+col1]=A[i*col+col2];
        }
    }
      void zero(int *&mat,int x,int y){
@@ -287,16 +287,8 @@ void printTree(float *&mat,int no_of_edges, int no_of_nodes)
                 }
 
         }
-        for(int i=0;i<x;++i){
-        cout<<"\t";
-        //cout<<"printing row"<<endl;
-        for(int j=0;j<passive;++j){
-            cout<<dev[i*y+j]<<"\t";
 
-        }
-        cout<<endl;
 
-    }
 
    }
 
