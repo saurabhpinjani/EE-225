@@ -68,11 +68,11 @@ void circuitAnalysis(float *&A,int x,int y)
     float *ArG,*Q,*P;
     int passive,active,*edgeOrder;
     device(G,J,Ar,Aj,active,passive,A,x,y,edgeOrder);
-    cout<<"device func end"<<endl;
+    
     normalise(Ar,x-1,y,passive);
     normalise(Aj,x-1,y,active);
     normalise(G,passive,y,passive);
-    cout<<"normalisation end"<<endl;
+    
 
     Art=transpose(Ar,x-1,passive);
     mat_multiply(ArG,Ar,G,x-1,passive,passive,passive);
@@ -83,7 +83,7 @@ void circuitAnalysis(float *&A,int x,int y)
 
     scalar_multiply(Q,-1,x-1,1);
 
-    cout<<"p and q formed "<<endl;
+ 
     int reply=solve(P,potentials,Q,x-1);
 
     cout<<"\n\n*******************************OUTPUT********************************\n\n";
