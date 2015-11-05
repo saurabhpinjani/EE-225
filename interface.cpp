@@ -18,8 +18,8 @@ void menu1(){
 
 
 }
-void currents(float *&A,float *&potentials,int *&edgeOrder,float *&G,int passive,int x,int y){
-    int ctr=0;
+void currents(float *&A,float *&potentials,int *&edgeOrder,float *&J,float *&G,int passive,int x,int y){
+    int ctr=0,ctr2=y-passive;
     for(int i=0;i<y;++i){
             float v=0;
 
@@ -30,9 +30,13 @@ void currents(float *&A,float *&potentials,int *&edgeOrder,float *&G,int passive
         }
     cout<<"Voltage across edge "<<i<<" is "<<v;
 
-    if(edgeOrder[ctr]==i){
+    if((edgeOrder[ctr]==i)&&(ctr<passive)){
         cout<<"\t Current through edge is "<<v*G[ctr*passive+ctr];
         ctr++;
+    }
+    else if(edgeOrder[y-ctr2]==i){
+        cout<<"\t Current through edge is "<<J[y-passive-ctr2];
+        ctr2--;
     }
     cout<<endl;
     }
@@ -41,11 +45,12 @@ void graphAnalysis(float *&A,int x,int y)
 {   bool flag;
 
     cout<<"Continuity Test "<<endl;
+
     flag=checkcontinous(A,x,y);
     if(flag==true){
         cout<<"The graph that has been entered is continous "<<endl;
         cout<<"Displaying all trees "<<endl;
-        printTree(A,x,y);
+        printTree(A,y,x);
     }
 
     if(flag==false){
@@ -58,34 +63,29 @@ void circuitAnalysis(float *&A,int x,int y)
 {
 
     float *Aj,*Ar,*J,*G,*potentials;
+
+    float *Art;
+    float *ArG,*Q,*P;
     int passive,active,*edgeOrder;
     device(G,J,Ar,Aj,active,passive,A,x,y,edgeOrder);
-
+    cout<<"device func end"<<endl;
     normalise(Ar,x-1,y,passive);
     normalise(Aj,x-1,y,active);
     normalise(G,passive,y,passive);
-   // cout<<"Ar matrix"<<endl;
-    //display(Ar,x-1,passive,passive);
-    float *Art;
-    float *ArG,*Q,*P;
+    cout<<"normalisation end"<<endl;
+
     Art=transpose(Ar,x-1,passive);
     mat_multiply(ArG,Ar,G,x-1,passive,passive,passive);
-   // cout<<"displaying ArG"<<endl;
-    //display(ArG,x-1,passive,passive);
+
     mat_multiply(P,ArG,Art,x-1,passive,passive,x-1);
-    delete ArG;
 
     mat_multiply(Q,Aj,J,x-1,active,active,1);
 
     scalar_multiply(Q,-1,x-1,1);
+
+    cout<<"p and q formed "<<endl;
     int reply=solve(P,potentials,Q,x-1);
-   /* cout<<"p matrix"<<endl;
-    display(P,x-1,x-1,x-1);
-    cout<<"q matrix"<<endl;
-    display(Q,x-1,1,1);*/
-    //solving Px=Q
-    //p=ArGArT
-    //Q=-AjJ
+
     cout<<"\n\n*******************************OUTPUT********************************\n\n";
     if(reply==1){
             cout<<"Infinite Solutions "<<endl;
@@ -101,7 +101,10 @@ void circuitAnalysis(float *&A,int x,int y)
 
 
     }
-    currents(A,potentials,edgeOrder,G,passive,x,y);
+
+    currents(A,potentials,edgeOrder,J,G,passive,x,y);
+    delete ArG;
+
 }
 
 int main(){

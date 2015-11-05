@@ -70,7 +70,6 @@ void display(float *mat,int rows,int cols,int tot_cols){
 
 void continous(float *a,int x,int y,int start,bool *check){
 
-
     check[start]=true;
     for(int i=0;i<y;++i){
         if(a[start*y+i]!=0){
@@ -155,12 +154,12 @@ bool isTree(float *a,int x,int y,int *edges,int no_of_edges){
 
 }
 
-void combinationGen(float *&mat,float arr[], int data[], int start, int end, int index, int r)
+void combinationGen(float *&mat,float arr[], int data[], int start, int end1, int index, int r)
 {
     // Current combination is ready to be printed, print it
     if ((index == r))
     {
-        if((isTree(mat,r+1,end,data,r)==true)){
+        if((isTree(mat,r+1,end1+1,data,r)==true)){
 
 
             for (int j=0; j<r; j++){
@@ -168,9 +167,9 @@ void combinationGen(float *&mat,float arr[], int data[], int start, int end, int
                 }
 
             cout<<"\n";
+            }
 
 
-        }
 
         return;
     }
@@ -179,10 +178,10 @@ void combinationGen(float *&mat,float arr[], int data[], int start, int end, int
     // "end-i+1 >= r-index" makes sure that including one element
     // at index will make a combination with remaining elements
     // at remaining positions
-    for (int i=start; i<=end && end-i+1 >= r-index; i++)
+    for (int i=start; i<=end1 && end1-i+1 >= r-index; i++)
     {
         data[index] = arr[i];
-        combinationGen(mat,arr, data, i+1, end, index+1, r);
+        combinationGen(mat,arr, data, i+1, end1, index+1, r);
     }
 }
 
@@ -292,40 +291,4 @@ void printTree(float *&mat,int no_of_edges, int no_of_nodes)
 
    }
 
-/*int main(){
 
-    int x,y;
-
-    int *mat;
-    mat=input(x,y);
-    float *dev,*J;
-    int *Ar,*Aj,active,passive,*edgeOrder;
-    device(dev,J,Ar,Aj,active,passive,mat,x,y,edgeOrder);
-    display(mat,x,y,y);
-    cout<<"device char"<<endl;
-    display(dev,x,passive,y);
-     cout<<"J matrix"<<endl;
-    display(J,active,1,1);
-     cout<<"Ar matrix"<<endl;
-    display(Ar,x,passive,y);
-     cout<<"Aj"<<endl;
-    display(Aj,x,active,y);
-     cout<<"edge Order"<<endl;
-    display(edgeOrder,1,y,1);
-    cout<<"Displaying matrix"<<endl;
-
-
-    for(int i=0;i<x;++i){
-        cout<<"\t";
-        //cout<<"printing row"<<endl;
-        for(int j=0;j<passive;++j){
-            cout<<Ar[i*y+j]<<"\t";
-
-        }
-        cout<<endl;
-
-    }
-    return 0;
-
-
-}*/

@@ -22,3 +22,22 @@
 
 1444992314 c:\users\saurabh pinjani\documents\acad\sem 3\ee 225 network theory\ee-225\matrix.h
 
+1446735729 source:c:\users\saurabh pinjani\downloads\ee-225-prototype\ee-225-prototype\incidence.cpp
+	<iostream>
+	<conio.h>
+
+1444957580 source:c:\users\saurabh pinjani\downloads\ee-225-prototype\ee-225-prototype\matrix.cpp
+	<iostream>
+	<math.h>
+
+1446738049 source:c:\users\saurabh pinjani\downloads\ee-225-prototype\ee-225-prototype\interface.cpp
+	<iostream>
+	<math.h>
+	<stdlib.h>
+	"incidence.h"
+	"matrix.h"
+
+1444957580 c:\users\saurabh pinjani\downloads\ee-225-prototype\ee-225-prototype\incidence.h
+
+1444957580 c:\users\saurabh pinjani\downloads\ee-225-prototype\ee-225-prototype\matrix.h
+
